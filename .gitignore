@@ -5,4 +5,4 @@ node_modules
 # Optional npm cache directory
 .npm
 # Application Data / JSON
-data
+model

@@ -1,0 +1,13 @@
+<div class="textwidget margin-top-30">
+  <p>Restaurant {{vm.restDetails.desc}} details</p>
+</div>
+<div class="widget">
+  <strong ng-show="!vm.restDetails">Loading...</strong>
+  <table>
+    <tr><th>Name</td><td>{{vm.restDetails.desc}}</td></tr>
+    <tr><th>Country</td><td>{{vm.restDetails.country}}</td></tr>
+    <tr><th>Employess</td><td>{{vm.restDetails.emp}}</td></tr>
+    </tr>
+  </table>
+  <a href="#/">Back to Restaurants</a>
+</div>
