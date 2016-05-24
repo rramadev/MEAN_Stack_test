@@ -72,7 +72,7 @@ color: #602e8b;
 	color: #757575;
 }
 .header-image {
-	margin-top: 24px;
+	margin-top: 28px;
 	margin-top: 1.714285714rem;
 }
 
@@ -105,12 +105,12 @@ a:visited {
 }
 
 a:hover {
-	color: #a8add7; 
+	color: #a8add7;
 text-decoration: underline;
 }
 
 a:active {
-color: #a8add7; 
+color: #a8add7;
 }
 
 
@@ -152,7 +152,7 @@ comments-link a:active,
 .site-content article { word-wrap: normal; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; }
 .widget-area .widget { word-wrap: normal; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; }
 
-#supersized{z-index:-1 !important;} 
+#supersized{z-index:-1 !important;}
 
 .site-title,
 .site-description {
@@ -162,19 +162,19 @@ comments-link a:active,
 }
 body.custom-background { background-color: #c2c5d6; }
 
-#pgc-218-0-0 { width:34.535% } 
-#pgc-218-0-1 { width:65.465% } 
-#pg-218-0 , .panel-grid-cell .panel { margin-bottom: 30px } 
-#pg-218-0 .panel-grid-cell { float:left } 
-.panel-grid-cell .panel:last-child { margin-bottom: 0 !important } 
-.panel-grid { margin: 0 -15px 0 -15px } 
-.panel-grid-cell { padding: 0 15px 0 15px } 
-@media (max-width:780px) { 
-	#pg-218-0 .panel-grid-cell , #pg-218-1 .panel-grid-cell { float:none } 
-    #pg-218-0 .panel-grid-cell , #pg-218-1 .panel-grid-cell { width:auto } 
-    #pgc-218-0-0 { margin-bottom:30px } 
-    .panel-grid { margin-left: 0 !important; margin-right: 0 !important; } 
-    .panel-grid-cell { padding: 0 !important; }  
+#pgc-218-0-0 { width:34.535% }
+#pgc-218-0-1 { width:65.465% }
+#pg-218-0 , .panel-grid-cell .panel { margin-bottom: 30px }
+#pg-218-0 .panel-grid-cell { float:left }
+.panel-grid-cell .panel:last-child { margin-bottom: 0 !important }
+.panel-grid { margin: 0 -15px 0 -15px }
+.panel-grid-cell { padding: 0 15px 0 15px }
+@media (max-width:780px) {
+	#pg-218-0 .panel-grid-cell , #pg-218-1 .panel-grid-cell { float:none }
+    #pg-218-0 .panel-grid-cell , #pg-218-1 .panel-grid-cell { width:auto }
+    #pgc-218-0-0 { margin-bottom:30px }
+    .panel-grid { margin-left: 0 !important; margin-right: 0 !important; }
+    .panel-grid-cell { padding: 0 !important; }
 }
 
 form label {
@@ -194,4 +194,3 @@ form label {
 .margin-top-30 {
 	margin-top:30px;
 }
-

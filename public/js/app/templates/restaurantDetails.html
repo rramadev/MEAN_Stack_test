@@ -4,10 +4,17 @@
 <div class="widget">
   <strong ng-show="!vm.restDetails">Loading...</strong>
   <table>
-    <tr><th>Name</td><td>{{vm.restDetails.desc}}</td></tr>
+    <tr><th>Name</td><td>{{vm.restDetails.desc}} <span ng-click="vm.viewItem(vm.restDetails)" style="cursor:pointer; color:blue;">(+ Info)</span></td></tr>
     <tr><th>Country</td><td>{{vm.restDetails.country}}</td></tr>
     <tr><th>Employess</td><td>{{vm.restDetails.emp}}</td></tr>
     </tr>
   </table>
-  <a href="#/">Back to Restaurants</a>
+  <a href="#/"><< Back to Restaurants List</a>
 </div>
+
+<script type="text/ng-template" id="item.html">
+  <div style="padding:20px;">
+    <h1>Welcome to the restaurant {{vm.activeItem.desc}} ({{vm.restDetails.country}})</h1>
+    <p>At the moment, the restaurant has more than {{vm.restDetails.emp}} employess!</p>
+  </div>
+</script>

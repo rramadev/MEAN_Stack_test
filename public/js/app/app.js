@@ -1,11 +1,14 @@
+(function() {
 'use strict';
 
 // MODULE App
 var app = angular.module('app', [
   'ngRoute',
+  'ngDialog',
   'controllers',
   'services',
-  'filters'
+  'filters',
+  'directives'
 ]);
 
 // APP routeProvider
@@ -18,10 +21,13 @@ app.config(function($routeProvider) {
       resolve: {
         data: function(restaurantsService) {
           return restaurantsService.getRestaurants();
+        },
+        data2: function(restaurantsService) {
+          return restaurantsService.orderService.orderRestaurants;
         }
       }
     })
-    .when('/:id', {
+    .when('/restaurant/:id', {
       templateUrl: 'js/app/templates/restaurantDetails.html',
       controller: 'restaurantDetailsController',
       controllerAs: 'vm',
@@ -31,5 +37,15 @@ app.config(function($routeProvider) {
         }]
       }
     })
-    .otherwise({template: 'Error finding route'});
+    .when('/payment', {
+      templateUrl: 'js/app/templates/payment.html',
+      controller: 'paymentController',
+      controllerAs: 'vm'
+    })
+    .when('/confirmation', {
+      templateUrl: 'js/app/templates/confirmation.html'
+    })
+    .otherwise({template: '<p>Error finding route</p><a href="#/"><< Back to Restaurants List</a>'});
 });
+
+})();

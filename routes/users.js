@@ -4,14 +4,15 @@ var userService = require('../services/user-service');
 // var passport = require('passport');
 // var Account = require('../models/account');
 
-/* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
-
 /* POST Login user. */
 router.post('/login', function(req, res) {
   res.redirect('/');
+});
+
+/* GET Logout user. */
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
 });
 
 /* GET Create user. */
@@ -25,28 +26,16 @@ router.get('/create', function(req, res, next) {
 router.post('/create', function(req, res, next) {
   userService.addUser(req.body, function(err) {
     if (err) {
+      console.log(err);
       delete req.body.password;
       return res.render('users/create', {
         title: 'Create an account',
         input: req.body,
-        error: 'Something went wrong!'
+        error: err
       });
     }
     res.redirect('/orders');
   });
-  // Account.register(new Account({ email : req.body.email, password : req.body.password }), function(err, account) {
-  //     if (err) {
-  //         console.log (err);
-  //         return res.render('users/create', {
-  //           account : account,
-  //           title: 'Create an account'
-  //         });
-  //     }
-  //
-  //     passport.authenticate('local')(req, res, function () {
-  //         res.redirect('/orders');
-  //     });
-  // });
 });
 
 module.exports = router;

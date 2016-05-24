@@ -5,8 +5,10 @@
   <strong ng-show="!vm.restaurants">Loading...</strong>
   <ul>
     <li ng-repeat="rest in vm.restaurants | orderBy:'desc'">
-      <a title="{{rest.desc}}" ng-href="#/{{rest._id}}"><strong>{{rest.desc}}</strong>
+      <input type="checkbox" ng-click="vm.addRestaurant(rest)" ng-checked="vm.isChecked(rest._id)">
+      <a title="{{rest.desc}}" ng-href="#/restaurant/{{rest._id}}"><strong>{{rest.desc}}</strong>
       <span class="cusines">({{rest.country | capitalize}})</span></a>
     </li>
   </ul>
+  <input type="submit" value="Save Order" ng-show="vm.orderRestaurants.length > 0" ng-click="vm.saveOrder()">
 </div>

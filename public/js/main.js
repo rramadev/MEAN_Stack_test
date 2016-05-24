@@ -1,5 +1,5 @@
 jQuery(function($){
 	$.supersized({
-        slides : [ {image : '/images/table-setting_485913447.jpg'  } ]
-    }); 
-}); 
+        slides : [ {image : '/img/table-setting_485913447.jpg'  } ]
+    });
+});
