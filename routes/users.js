@@ -1,28 +1,38 @@
 var express = require('express');
 var router = express.Router();
 var userService = require('../services/user-service');
-// var passport = require('passport');
+var passport = require('passport');
+var config = require('../config/config');
 // var Account = require('../models/account');
 
 /* POST Login user. */
-router.post('/login', function(req, res) {
-  res.redirect('/');
+router.post('/login',
+function(req, res, next) {
+  // Set Cookie expiration date to 30 days, transform Session Cookie to Persistent Cookie
+  req.session.cookie.maxAge = config.cookieMaxAge;
+  next();
+},
+passport.authenticate('local', {failureRedirect: '/', failureFlash: 'Invalid email or password'}),
+function(req, res, next) {
+  // If user has been successfully authenticated
+  res.redirect('/orders');
 });
 
 /* GET Logout user. */
-router.get('/logout', function(req, res) {
+router.get('/logout', function(req, res) {    
     req.logout();
+    req.session.destroy();
     res.redirect('/');
 });
 
-/* GET Create user. */
+/* GET Create new user. */
 router.get('/create', function(req, res, next) {
   res.render('users/create', {
     title: 'Create an account'
   });
 });
 
-/* POST Create user. */
+/* POST Create new user. */
 router.post('/create', function(req, res, next) {
   userService.addUser(req.body, function(err) {
     if (err) {
@@ -34,7 +44,10 @@ router.post('/create', function(req, res, next) {
         error: err
       });
     }
-    res.redirect('/orders');
+    // Manually login when new user is created
+    req.login(req.body, function(err) {
+      res.redirect('/orders');
+    });
   });
 });
 

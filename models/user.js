@@ -30,7 +30,8 @@ var userSchema = new Schema({
   }
 });
 
-// Check if the email already exists in DB
+// Field validation
+// Check if the Email already exists in DB
 userSchema.path('email').validate(function(value, next) {
   userService.findUser(value, function(err, user) {
     if (err) {

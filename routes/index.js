@@ -1,10 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET Login User. */
+/* GET / - Index - Login User. */
 router.get('/', function(req, res, next) {
-  res.render('login', {
-    title: 'Login User'
+  if (req.user) {
+    res.redirect('/orders');
+  }
+  res.render('index', {
+    title: 'Login',
+    error: req.flash('error')
   });
 });
 

@@ -1,4 +1,4 @@
-// ** Variables
+// ** Required Modules
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,14 +6,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-// var passport = require('passport');
-// var LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport');
+var expressSession = require('express-session');
+var flash = require('connect-flash');
+var connectMongo = require('connect-mongo');
 
-// ** Require modules
+// ** Required Files
 var config = require('./config/config');
-var routes = require('./routes/index');
+var index = require('./routes/index');
 var users = require('./routes/users');
 var orders = require('./routes/orders');
+
+var MongoStore = connectMongo(expressSession);
+
+var passportConfig = require('./auth/passport-config');
+passportConfig();
 
 // ** Express App
 var app = express();
@@ -22,15 +29,16 @@ var app = express();
 mongoose.connect(config.mongoUri);
 
 // ** View engine setup
+// Views path
 app.set('views', path.join(__dirname, 'views'));
 // EJS als View engine
 app.set('view engine', 'ejs');
 
 // ** ENV Settings
 // Settings to load files depending on ENV
-console.log("NODE_ENV: " + app.get('env'));
+console.log("NODE_ENV: " + app.get('env') + ". Server Started...");
 // app.set('production', process.env.NODE_ENV === 'production');
-app.set('development', app.get('env') === 'development');
+// app.set('development', app.get('env') === 'development');
 
 // ** Middleware Pipeline **
 // uncomment after placing your favicon in /public
@@ -39,14 +47,18 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(require('express-session')({
-//     secret: 'xxx keyboard cat',
-//     resave: false,
-//     saveUninitialized: false
-// }));
-// app.use(passport.initialize());
-// app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressSession({
+    secret: 'xxx keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection
+    })
+}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // ** Passport config
 // var Account = require('./models/account');
@@ -55,14 +67,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // passport.deserializeUser(Account.deserializeUser());
 
 // ** Valid routes
-app.use('/', routes);
+app.use('/', index);
 app.use('/users', users);
 app.use('/orders', orders);
 
 // ** Invalid route
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  var err = new Error('Resource Not Found');
   err.status = 404;
   next(err);
 });
@@ -89,5 +101,5 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// ** Export Express App Module
+// ** Export Express-App Module
 module.exports = app;
