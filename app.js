@@ -53,6 +53,7 @@ app.use(expressSession({
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({
+      // Store the Session Cookie (Persistent) in MongoDB
       mongooseConnection: mongoose.connection
     })
 }));

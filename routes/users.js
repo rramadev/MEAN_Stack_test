@@ -7,19 +7,24 @@ var config = require('../config/config');
 
 /* POST Login user. */
 router.post('/login',
-function(req, res, next) {
-  // Set Cookie expiration date to 30 days, transform Session Cookie to Persistent Cookie
-  req.session.cookie.maxAge = config.cookieMaxAge;
-  next();
-},
-passport.authenticate('local', {failureRedirect: '/', failureFlash: 'Invalid email or password'}),
-function(req, res, next) {
-  // If user has been successfully authenticated
-  res.redirect('/orders');
-});
+  function(req, res, next) {
+    // Set Cookie expiration date to 30 days, transform Session Cookie to Persistent Cookie
+    req.session.cookie.maxAge = config.cookieMaxAge;
+    next();
+  },
+  passport.authenticate('local', {
+    successRedirect: '/orders',
+    failureRedirect: '/',
+    failureFlash: true
+  }
+));
+  // *Updated by 'successRedirect'
+  // ,function(req, res, next) {
+  // // If user has been successfully authenticated
+  // res.redirect('/orders');
 
 /* GET Logout user. */
-router.get('/logout', function(req, res) {    
+router.get('/logout', function(req, res) {
     req.logout();
     req.session.destroy();
     res.redirect('/');
@@ -33,7 +38,7 @@ router.get('/create', function(req, res, next) {
 });
 
 /* POST Create new user. */
-router.post('/create', function(req, res, next) {
+router.post('/api/create', function(req, res, next) {
   userService.addUser(req.body, function(err) {
     if (err) {
       console.log(err);
@@ -44,7 +49,7 @@ router.post('/create', function(req, res, next) {
         error: err
       });
     }
-    // Manually login when new user is created
+    // Manually create login session when new user is created
     req.login(req.body, function(err) {
       res.redirect('/orders');
     });

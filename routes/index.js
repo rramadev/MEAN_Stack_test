@@ -4,7 +4,8 @@ var router = express.Router();
 /* GET / - Index - Login User. */
 router.get('/', function(req, res, next) {
   if (req.user) {
-    res.redirect('/orders');
+    // Use return to avoid "Headers error"
+    return res.redirect('/orders');
   }
   res.render('index', {
     title: 'Login',

@@ -11,10 +11,10 @@ controllers.controller('restaurantsController', ['data', 'data2', 'restaurantsSe
 
   //Update the orderRestaurants list on service
   this.updateServiceOrders = function(orderRestaurants) {
-    restaurantsService.orderService.setOrderRestaurants(orderRestaurants);
+    restaurantsService.setOrderRestaurants(orderRestaurants);
   };
 
-  //Check if restaurants was already selected
+  //Check on page change, whether restaurant was already selected
   this.isChecked = function(id){
       var match = false;
       for(var i=0 ; i < this.orderRestaurants.length; i++) {
@@ -25,14 +25,14 @@ controllers.controller('restaurantsController', ['data', 'data2', 'restaurantsSe
       return match;
   };
 
-  this.addRestaurant = function(rest) {
-    var index = this.containsObject(rest, this.orderRestaurants);
+  this.addRestaurant = function(restId) {
+    var index = this.containsObject(restId, this.orderRestaurants);
     if (index > -1) {
       this.orderRestaurants.splice(index,1);
       this.updateServiceOrders(this.orderRestaurants);
       return;
     }
-    this.orderRestaurants.push(rest);
+    this.orderRestaurants.push(restId);
     this.updateServiceOrders(this.orderRestaurants);
     // console.log(this.orderRestaurants);
   };
@@ -41,7 +41,9 @@ controllers.controller('restaurantsController', ['data', 'data2', 'restaurantsSe
     restaurantsService.createOrder(this.orderRestaurants)
     .then(function(data) {
       if(data.success) {
-        // alert("Order Saved");
+        // alert("Order Saved: " + data);
+        // console.log(data);
+        restaurantsService.setSavedOrderId(data.savedOrderId);
         $location.url("/payment");
         return;
       }
@@ -50,10 +52,10 @@ controllers.controller('restaurantsController', ['data', 'data2', 'restaurantsSe
   };
 
   //Check if object exists already in array and return index
-  this.containsObject = function(obj, list) {
+  this.containsObject = function(objId, list) {
     var i = 0;
     for (i = 0; i < list.length; i++) {
-        if (list[i] === obj) {
+        if (list[i] === objId) {
             return i;
         }
     }
@@ -92,10 +94,18 @@ controllers.controller('restaurantDetailsController', ['data', 'ngDialog', '$sco
 }]);
 
 // CONTROLLER paymentController
-controllers.controller('paymentController', ['$location', function($location) {
-  this.submit = function() {
-    this.showProgress = true;
-    $location.url("/confirmation");
+controllers.controller('paymentController', ['$location', 'data', 'restaurantsService', function($location, data, restaurantsService) {
+  this.savedOrderId = data;
+  this.paymentOrder = function() {
+    console.log(this.savedOrderId);
+    restaurantsService.paymentOrder({savedOrderId: this.savedOrderId})
+    .then(function(data) {
+      if(data.success) {
+        $location.url("/confirmation");
+        return;
+      }
+      alert("Something went wrong updating the order...");
+    });
   };
 }]);
 

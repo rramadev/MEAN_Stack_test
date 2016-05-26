@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 var restaurantSchema = new Schema({
   desc: String,
-  country: String
+  country: String,
+  emp: Number
 });
 
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);

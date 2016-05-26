@@ -1,5 +1,5 @@
 <div class="textwidget margin-top-30">
-  <h3>Order saved successfully!</h3>
+  <h3>Order Nr.: {{vm.savedOrderId}} saved successfully!</h3>
   <h4>To complete your order process, please enter your payment information...</h4>
   <hr>
   <h1>Payment Information</h1>
@@ -62,7 +62,7 @@
       <input type="text" name="zip" id="zip" ng-model="vm.card.zip" />
     </div>
     <div>
-      <input type="submit" value="Place Order" />
+      <input type="submit" value="Place Order" ng-click="vm.paymentOrder()"/>
       <span ng-show="vm.showProgress">Placing order...</span>
     </div>
     <div ng-show="paymentForm.$submitted" style="color:red;">

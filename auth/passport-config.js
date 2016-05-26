@@ -9,7 +9,7 @@ module.exports = function() {
         return next(err);
       }
       if (!user || user.password !== password) {
-        return next(null, null);
+        return next(null, false, { message: 'Invalid email or password' });
       }
       next(null, user);
     });

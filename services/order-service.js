@@ -12,8 +12,8 @@ exports.getRestaurants = function(next) {
 };
 
 exports.getRestaurantDetails = function(restId, next) {
-  var id = new mongoose.Types.ObjectId(restId);
-  Restaurant.findOne({_id:id}, function(err, restDetails) {
+  var rid = new mongoose.Types.ObjectId(restId);
+  Restaurant.findOne({_id:rid}, function(err, restDetails) {
     if (err) {
       return next(err, null);
     }
@@ -21,9 +21,13 @@ exports.getRestaurantDetails = function(restId, next) {
   });
 };
 
-exports.createOrder = function(orderRestaurants, next) {
+exports.createOrder = function(user, orderRestaurants, next) {
   // console.log("exports.createOrder : " + orderRestaurants);
   var order = new Order({
+    user: {
+      email: user.email,
+      roomNumber: user.roomNumber
+    },
     orderRestaurants: orderRestaurants
   });
   order.save(function(err, savedOrder) {
@@ -31,5 +35,16 @@ exports.createOrder = function(orderRestaurants, next) {
       return next(err, null);
     }
     next(null, savedOrder._id);
+  });
+};
+
+exports.paymentOrder = function(savedOrderId, next) {
+  var soid = new mongoose.Types.ObjectId(savedOrderId.savedOrderId);
+  Order.update( {_id: soid} , { $set: {payment: true}},
+  function(err, result) {
+    if (err) {
+      return next(err, null);
+    }
+    next(null, result);
   });
 };
